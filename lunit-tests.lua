@@ -31,7 +31,7 @@
 --]]--------------------------------------------------------------------------
 
 
-require "lunit"
+local lunit = require "lunit-globalized"
 
 
 local a_number    = 123
@@ -45,13 +45,13 @@ local error       = error
 local pairs       = pairs
 local ipairs      = ipairs
 
-local module      = module
+local lunit_selftest = {}
 
 
 
-module( "lunit-tests.interface", lunit.testcase )
+lunit_selftest.interface = lunit.create_testcase("lunit.selftest.interface")
 
-function test()
+function lunit_selftest.interface.test()
   local funcnames = {
     "main", "run", "runtest", "testcase", "testcases", "tests", "setupname",
     "teardownname", "loadrunner", "setrunner", "loadonly",
@@ -63,7 +63,7 @@ function test()
     "assert_userdata", "assert_not_userdata", "assert_pass", "assert_error",
     "assert_error_match", "fail", "clearstats",
     "is_nil", "is_boolean", "is_number", "is_string", "is_table", "is_function",
-    "is_thread", "is_userdata"
+    "is_thread", "is_userdata", "create_testcase", "globalize_iface"
   }
 
   for _, funcname in ipairs(funcnames) do
@@ -77,7 +77,7 @@ function test()
     for _, name in ipairs(funcnames) do
       map[name] = true
     end
-    for _, name in ipairs{"lunit", "_PACKAGE", "_M", "_NAME", "stats"} do
+    for _, name in ipairs{"lunit", "stats"} do
       map[name] = true
     end
     for name, _ in pairs(lunit) do
@@ -90,9 +90,9 @@ end
 
 -- We must assume that errors thrown by test functions are detected. We use
 -- the stdlib error() function to signal errors instead of fail().
-module( "lunit-tests.basics", lunit.testcase )
+lunit_selftest.basics = lunit.create_testcase("lunit.selftest.basics")
 
-function test_fail()
+function lunit_selftest.basics.test_fail()
   local ok, errmsg
 
   ok, errmsg = pcall(function() fail() end)
@@ -106,7 +106,7 @@ function test_fail()
   end
 end
 
-function test_assert_error()
+function lunit_selftest.basics.test_assert_error()
   local ok, errmsg
 
   ok, errmsg = pcall(function() assert_error(function() error("Error!") end) end)
@@ -130,7 +130,7 @@ function test_assert_error()
   end
 end
 
-function test_assert_pass()
+function lunit_selftest.basics.test_assert_pass()
   local ok, errmsg
 
   ok, errmsg = pcall(function() assert_pass(function() error("Error!") end) end)
@@ -154,21 +154,21 @@ function test_assert_pass()
   end
 end
 
-function test_assert_true()
+function lunit_selftest.basics.test_assert_true()
   assert_pass("assert_true(true) doesn't work!", function() assert_true(true) end)
   assert_pass("assert_true(true, \"A message\" doesn't work!", function() assert_true(true, "A Message") end)
   assert_error("assert_true(false) doesn't fail!", function() assert_true(false) end)
   assert_error("assert_true(false, \"A message\" doesn't fail!", function() assert_true(false, "A Message") end)
 end
 
-function test_assert_false()
+function lunit_selftest.basics.test_assert_false()
   assert_pass("assert_false(false) doesn't work!", function() assert_false(false) end)
   assert_pass("assert_false(false, \"A message\" doesn't work!", function() assert_false(false, "A Message") end)
   assert_error("assert_false(true) doesn't fail!", function() assert_false(true) end)
   assert_error("assert_false(true, \"A message\" doesn't fail!", function() assert_false(true, "A Message") end)
 end
 
-function test_assert()
+function lunit_selftest.basics.test_assert()
   assert_pass("assert(true) doesn't work!", function() assert(true) end)
   assert_pass("assert(12345) doesn't work!", function() assert(12345) end)
   assert_pass("assert(\"A string\") doesn't work!", function() assert("A string") end)
@@ -177,7 +177,7 @@ function test_assert()
   assert_error("assert_(nil) doesn't fail!", function() assert(nil) end)
 end
 
-function test_assert_equal()
+function lunit_selftest.basics.test_assert_equal()
   assert_pass("assert_equal(\"A String\", \"A String\") doesn't work!", function()
     local a_string = assert_equal("A String", "A String")
     assert_true("A String" == a_string)
@@ -294,7 +294,7 @@ function test_assert_equal()
 end
 
 
-function test_assert_not_equal()
+function lunit_selftest.basics.test_assert_not_equal()
   assert_pass("assert_not_equal(\"A String\", \"Another String\") doesn't work!", function()
     local a_string = assert_not_equal("A String", "Another String")
     assert_true("Another String" == a_string)
@@ -418,9 +418,9 @@ end
 
 
 
-module( "lunit-tests.is_xyz", lunit.testcase )
+lunit_selftest.is_xyz = lunit.create_testcase("lunit.selftest.is_xyz")
 
-function test_is_nil()
+function lunit_selftest.is_xyz.test_is_nil()
   assert_true( is_nil(nil) )
   assert_false( is_nil(true) )
   assert_false( is_nil(false) )
@@ -431,7 +431,7 @@ function test_is_nil()
   assert_false( is_nil(a_thread) )
 end
 
-function test_is_boolean()
+function lunit_selftest.is_xyz.test_is_boolean()
   assert_true( is_boolean(false) )
   assert_true( is_boolean(true) )
   assert_false( is_boolean(nil) )
@@ -442,7 +442,7 @@ function test_is_boolean()
   assert_false( is_boolean(a_thread) )
 end
 
-function test_is_number()
+function lunit_selftest.is_xyz.test_is_number()
   assert_true( is_number(a_number) )
   assert_false( is_number(nil) )
   assert_false( is_number(true) )
@@ -453,7 +453,7 @@ function test_is_number()
   assert_false( is_number(a_thread) )
 end
 
-function test_is_string()
+function lunit_selftest.is_xyz.test_is_string()
   assert_true( is_string(a_string) )
   assert_false( is_string(nil) )
   assert_false( is_string(true) )
@@ -464,7 +464,7 @@ function test_is_string()
   assert_false( is_string(a_thread) )
 end
 
-function test_is_table()
+function lunit_selftest.is_xyz.test_is_table()
   assert_true( is_table(a_table) )
   assert_false( is_table(nil) )
   assert_false( is_table(true) )
@@ -475,7 +475,7 @@ function test_is_table()
   assert_false( is_table(a_thread) )
 end
 
-function test_is_function()
+function lunit_selftest.is_xyz.test_is_function()
   assert_true( is_function(a_function) )
   assert_false( is_function(nil) )
   assert_false( is_function(true) )
@@ -486,7 +486,7 @@ function test_is_function()
   assert_false( is_function(a_thread) )
 end
 
-function test_is_thread()
+function lunit_selftest.is_xyz.test_is_thread()
   assert_true( is_thread(a_thread) )
   assert_false( is_thread(nil) )
   assert_false( is_thread(true) )
@@ -499,9 +499,9 @@ end
 
 
 
-module( "lunit-tests.assert_not_xyz", lunit.testcase )
+lunit_selftest.assert_not_xyz = lunit.create_testcase("lunit.selftest.assert_not_xyz")
 
-function test_assert_not_nil()
+function lunit_selftest.assert_not_xyz.test_assert_not_nil()
   assert_not_nil( true )
   assert_not_nil( false )
   assert_not_nil( a_number )
@@ -522,7 +522,7 @@ function test_assert_not_nil()
   assert_error(function() assert_not_nil(nil, "A message") end)
 end
 
-function test_assert_not_boolean()
+function lunit_selftest.assert_not_xyz.test_assert_not_boolean()
   assert_not_boolean( nil )
   assert_not_boolean( a_number )
   assert_not_boolean( a_string )
@@ -543,7 +543,7 @@ function test_assert_not_boolean()
   assert_error(function() assert_not_boolean(false, "A message") end)
 end
 
-function test_assert_not_number()
+function lunit_selftest.assert_not_xyz.test_assert_not_number()
   assert_not_number( nil )
   assert_not_number( true )
   assert_not_number( false )
@@ -564,7 +564,7 @@ function test_assert_not_number()
   assert_error(function() assert_not_number(a_number, "A message") end)
 end
 
-function test_assert_not_string()
+function lunit_selftest.assert_not_xyz.test_assert_not_string()
   assert_not_string( nil )
   assert_not_string( true )
   assert_not_string( false )
@@ -585,7 +585,7 @@ function test_assert_not_string()
   assert_error(function() assert_not_string(a_string, "A message") end)
 end
 
-function test_assert_not_table()
+function lunit_selftest.assert_not_xyz.test_assert_not_table()
   assert_not_table( nil )
   assert_not_table( true )
   assert_not_table( false )
@@ -606,7 +606,7 @@ function test_assert_not_table()
   assert_error(function() assert_not_table(a_table, "A message") end)
 end
 
-function test_assert_not_function()
+function lunit_selftest.assert_not_xyz.test_assert_not_function()
   assert_not_function( nil )
   assert_not_function( true )
   assert_not_function( false )
@@ -627,7 +627,7 @@ function test_assert_not_function()
   assert_error(function() assert_not_function(a_function, "A message") end)
 end
 
-function test_assert_not_thread()
+function lunit_selftest.assert_not_xyz.test_assert_not_thread()
   assert_not_thread( nil )
   assert_not_thread( true )
   assert_not_thread( false )
@@ -650,9 +650,9 @@ end
 
 
 
-module( "lunit-tests.assert_xyz", lunit.testcase )
+lunit_selftest.assert_xyz = lunit.create_testcase("lunit.selftest.assert_xyz")
 
-function test_assert_nil()
+function lunit_selftest.assert_xyz.test_assert_nil()
   assert_nil( nil )
   assert_nil( nil, "A message" )
 
@@ -673,7 +673,7 @@ function test_assert_nil()
   assert_error( function() assert_nil( a_thread, "A message" ) end)
 end
 
-function test_assert_boolean()
+function lunit_selftest.assert_xyz.test_assert_boolean()
   assert_boolean( true )
   assert_boolean( false )
   assert_boolean( true, "A message" )
@@ -694,7 +694,7 @@ function test_assert_boolean()
   assert_error( function() assert_boolean( a_thread, "A message" ) end)
 end
 
-function test_assert_number()
+function lunit_selftest.assert_xyz.test_assert_number()
   assert_number( a_number )
   assert_number( a_number, "A message" )
 
@@ -715,7 +715,7 @@ function test_assert_number()
   assert_error( function() assert_number( a_thread, "A message" ) end)
 end
 
-function test_assert_string()
+function lunit_selftest.assert_xyz.test_assert_string()
   assert_string( a_string ) 
   assert_string( a_string, "A message" )
 
@@ -736,7 +736,7 @@ function test_assert_string()
   assert_error( function() assert_string( a_thread, "A message" ) end)
 end
 
-function test_assert_table()
+function lunit_selftest.assert_xyz.test_assert_table()
   assert_table( a_table )
   assert_table( a_table, "A message" )
 
@@ -757,7 +757,7 @@ function test_assert_table()
   assert_error( function() assert_table( a_thread, "A message" ) end)
 end
 
-function test_assert_function()
+function lunit_selftest.assert_xyz.test_assert_function()
   assert_function( a_function )
   assert_function( a_function, "A message" )
 
@@ -778,7 +778,7 @@ function test_assert_function()
   assert_error( function() assert_function( a_thread, "A message" ) end)
 end
 
-function test_assert_thread()
+function lunit_selftest.assert_xyz.test_assert_thread()
   assert_thread( a_thread )
   assert_thread( a_thread, "A message" )
 
@@ -801,9 +801,9 @@ end
 
 
 
-module( "lunit-tests.match", lunit.testcase )
+lunit_selftest.match = lunit.create_testcase("lunit.selftest.match")
 
-function test_assert_match()
+function lunit_selftest.match.test_assert_match()
   assert_pass("assert_match(\"^Hello\", \"Hello World\") doesn't work!", function()
     local a_string = assert_match("^Hello", "Hello World")
     assert_equal("Hello World", a_string)
@@ -857,7 +857,7 @@ function test_assert_match()
   end)
 end
 
-function test_assert_not_match()
+function lunit_selftest.match.test_assert_not_match()
   assert_pass("assert_not_match(\"Hello$\", \"Hello World\") doesn't work!", function()
     local a_string = assert_not_match("Hello$", "Hello World")
     assert_equal("Hello World", a_string)
@@ -911,7 +911,7 @@ function test_assert_not_match()
   end)
 end
 
-function test_assert_error_match()
+function lunit_selftest.match.test_assert_error_match()
   local ok, errobj, usrmsg
 
   local function errfunc()
@@ -957,18 +957,19 @@ function test_assert_error_match()
 end
 
 
-
-module( "lunit-tests.setup-teardown", lunit.testcase )
+-- Let's test lunit.testcase() here manually, instead of lunit.create_testcase()
+lunit_selftest.setup_teardown_tests = { TESTNAME = "lunit.selftest.setup-teardown" }
+lunit.testcase( lunit_selftest.setup_teardown_tests )
 
 local setup_called = 0
 local teardown_called = 0
 local helper_called = 0
 
-function setup()
+function lunit_selftest.setup_teardown_tests.setup()
   setup_called = setup_called + 1
 end
 
-function Teardown()
+function lunit_selftest.setup_teardown_tests.Teardown()
   teardown_called = teardown_called + 1
 end
 
@@ -978,14 +979,15 @@ local function helper()
   assert(teardown_called == helper_called - 1, "teardown() not called")
 end
 
-function test1()
+function lunit_selftest.setup_teardown_tests.test1()
   helper()
 end
 
-function test2()
+function lunit_selftest.setup_teardown_tests.test2()
   helper()
 end
 
-function test3()
+function lunit_selftest.setup_teardown_tests.test3()
   helper()
 end
+
