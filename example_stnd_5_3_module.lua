@@ -1,4 +1,5 @@
 -- This is a 'standard' 5.3 module in itself
+-- Run: ./extra/lunit.sh example_stnd_5_3_module.lua
 
 local lunit = require "lunit"
 
@@ -29,10 +30,10 @@ function example_stnd.test2()
   lunit.assert_equal("World", foobar)		-- fails because of " Bug"
 end
 
-function example_stnd.error_in_test()
+function example_stnd.test3_error_in_test()
   lunit.assert_equal("Hello World", foobar)
   
-  foobar.bug_method_does_not_exist()		-- we don't have such method, so it will trigger an error
+  foobar.bug_method_does_not_exist()		-- we don't have such method, so it will trigger an error, which is handled, too
   
   foobar = string.sub(foobar, -5)
   lunit.assert_equal("World", foobar)

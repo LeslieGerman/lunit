@@ -1,4 +1,4 @@
--- Run: lua example.lua
+-- Run: ./extra/lunit.sh example_from_shell.lua
 
 require "lunit-globalized"
 
@@ -36,6 +36,3 @@ function enhanced.test2()
   foobar = string.sub(foobar, -5)
   assert_equal("World", foobar)
 end
-
-
-lunit.main(...)

@@ -1,13 +1,11 @@
 
 --[[--------------------------------------------------------------------------
 
-    This file is part of lunit 0.5.
+    This file is part of lunit.
 
-    For Details about lunit look at: http://www.mroth.net/lunit/
+    For Details about lunit look at: https://www.mroth.net/lunit/
 
-    Author: Michael Roth <mroth@nessie.de>
-
-    Copyright (c) 2006-2008 Michael Roth <mroth@nessie.de>
+    Copyright (c) 2006-2008 Michael Roth <mail@mroth.net>
 
     Permission is hereby granted, free of charge, to any person 
     obtaining a copy of this software and associated documentation
@@ -51,7 +49,7 @@
 
 local lunit = require "lunit"
 
-local lunit_console = {}
+lunit.console = {}
 
 
 local function printformat(format, ...)
@@ -78,7 +76,7 @@ end
 local msgs = {}
 
 
-function lunit_console.begin()
+function lunit.console.begin()
   local total_tc = 0
   local total_tests = 0
 
@@ -93,18 +91,18 @@ function lunit_console.begin()
 end
 
 
-function lunit_console.run(testcasename, testname)
+function lunit.console.run(testcasename, testname)
   -- NOP
 end
 
 
-function lunit_console.err(fullname, message, traceback)
+function lunit.console.err(fullname, message, traceback)
   writestatus("E")
   msgs[#msgs+1] = "Error! ("..fullname.."):\n"..message.."\n\t"..table.concat(traceback, "\n\t") .. "\n"
 end
 
 
-function lunit_console.fail(fullname, where, message, usermessage)
+function lunit.console.fail(fullname, where, message, usermessage)
   writestatus("F")
   local text =  "Failure ("..fullname.."):\n"..
                 where..": "..message.."\n"
@@ -117,13 +115,13 @@ function lunit_console.fail(fullname, where, message, usermessage)
 end
 
 
-function lunit_console.pass(testcasename, testname)
+function lunit.console.pass(testcasename, testname)
   writestatus(".")
 end
 
 
 
-function lunit_console.done()
+function lunit.console.done()
   printformat("\n\n%d Assertions checked.\n", lunit.stats.assertions )
   print()
 
@@ -136,4 +134,4 @@ function lunit_console.done()
 end
 
 
-return lunit_console
+return lunit.console
