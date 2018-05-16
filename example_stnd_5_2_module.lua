@@ -1,5 +1,5 @@
--- This is a 'standard' 5.3 module in itself
--- Run: ./extra/lunit.sh example_stnd_5_3_module.lua
+-- This is a 'standard' 5.2 module in itself
+-- Run: ./extra/lunit.sh example_stnd_5_2_module.lua
 
 local lunit = require "lunit"
 
