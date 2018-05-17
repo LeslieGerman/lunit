@@ -1,9 +1,8 @@
-# lunit - Unit Testing Framework for Lua.
+# lunit - Unit Testing Framework for Lua 5.2 and above.
 
 * Provides 27 assert functions, and a few misc functions
   for usage in an easy unit testing framework.
 * Comes with a test suite to test itself. 
-  The testsuite consists of more than 710 assertions.
 * Licensed under the MIT license.
 
 
@@ -19,7 +18,11 @@ Also see ["How to write Lua modules in a post-module() world"](http://hisham.hm/
 
 This branch was created with the goal, so that while keeping the original concept, it would be easy to rewrite existing tests, which were created using `module()` (Lua 5.1).
 
-## Example
+## Self-test
+
+Simply run: `> lua selftest.lua`
+
+## Examples
 
 See sources `example*.lua`.
 
@@ -46,6 +49,7 @@ https://github.com/LeslieGerman/lunit
 #### 2018-05-17
 
 - Repo: https://github.com/LeslieGerman/lunit was created.
+- Docu corrections.
 
 #### 2018-05-16
 
