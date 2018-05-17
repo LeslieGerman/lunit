@@ -4,12 +4,13 @@
   for usage in an easy unit testing framework.
 * Comes with a test suite to test itself. 
 * Licensed under the MIT license.
+* Credit goes to the author of the original code: Michael Roth.
 
 
 
 ## Actual state
 
-This is a "manually forked" repo of https://github.com/mrothNET/lunit and actually contains only one branch ([`for_lua_5_2_and_above`](https://github.com/LeslieGerman/lunit/tree/for_lua_5_2_and_above)), which is the adaptation of the master branch of the original code for Lua 5.2 (and above).
+This is a "manually forked" repo of [Michael Roth's `lunit`](https://github.com/mrothNET/lunit) and actually contains only one branch ([`for_lua_5_2_and_above`](https://github.com/LeslieGerman/lunit/tree/for_lua_5_2_and_above)), which is the adaptation of the master branch of the original code for Lua 5.2 (and above).
 
 The main change from Lua 5.1 to 5.2 was that the [`module()`](https://www.lua.org/manual/5.2/manual.html#8.2) function was removed.
 So modules are now simple tables.
