@@ -10,40 +10,48 @@
 
 ## Actual state
 
-This branch is for Lua 5.2 (and above).
-The main change from 5.1 to 5.2 was that the [`module()`](https://www.lua.org/manual/5.2/manual.html#8.2) function was removed.
-So modules are now simple tables.
-See also ["Modules Tutorial"](http://lua-users.org/wiki/ModulesTutorial)
+This is a "manually forked" repo of https://github.com/mrothNET/lunit and actually contains only one branch ([`for_lua_5_2_and_above`](https://github.com/LeslieGerman/lunit/tree/for_lua_5_2_and_above)), which is the adaptation of the master branch of the original code for Lua 5.2 (and above).
 
-This branch was created with the goal, so that it would be easy to rewrite existing tests, which were created using `module()` (Lua 5.1).
+The main change from Lua 5.1 to 5.2 was that the [`module()`](https://www.lua.org/manual/5.2/manual.html#8.2) function was removed.
+So modules are now simple tables.
+See also ["Modules Tutorial"](http://lua-users.org/wiki/ModulesTutorial).
+Also see ["How to write Lua modules in a post-module() world"](http://hisham.hm/2014/01/02/how-to-write-lua-modules-in-a-post-module-world/).
+
+This branch was created with the goal, so that while keeping the original concept, it would be easy to rewrite existing tests, which were created using `module()` (Lua 5.1).
 
 ## Example
 
 See sources `example*.lua`.
 
-For running the examples see comments in source files.
+For running the examples see comments in the example source files.
 
 ## Homepage
 
-https://www.mroth.net/lunit
-
+https://github.com/LeslieGerman/lunit
 
 
 ## Source code
 
-[GitHub repository:](https://github.com/mrothNET/lunit)
+[GitHub repository:](https://github.com/LeslieGerman/lunit)
 
-	git clone https://github.com/mrothNET/lunit.git
+	git clone https://github.com/LeslieGerman/lunit
 
+[GitHub repository of the original code:](https://github.com/mrothNET/lunit)
+
+	git clone https://github.com/mrothNET/lunit
 
 
 ### History
 
+#### 2018-05-17
+
+- Repo: https://github.com/LeslieGerman/lunit was created.
+
 #### 2018-05-16
 
-- Branch created for Lua 5.2.
-- Code and library does no more depend on the `module()` function.
-- More examples were added.
+- Branch created for Lua 5.2 and above.
+- Code and library does not depend on the `module()` function anymore.
+- Some more examples were added.
 
 #### 2018-02-22
 
